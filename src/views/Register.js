@@ -11,24 +11,37 @@ export default class Register extends Component {
         }
     }
 
-    // createUser = (e) => {
-    //     e.preventDefault();
-    //     let userName = e.target.username.value;
-    //     let email = e.target.email.value;
-    //     let password = e.target.password.value;
-    //     let confirmPassword = e.target.confirmPassword.value;
-    //     fetch('', {
-    //         method : 'POST',
-    //         headers : {
-    //             'Content-Type': 'application/json',
-    //             'Accept' : '*/*',
-    //             'Authorization' : 'Bearer' +
-    //         }
-            
-    //     })
-    // }
+    createUser = (e) => {
+        e.preventDefault();
+        let userName = e.target.username.value;
+        let email = e.target.email.value;
+        let password = e.target.password.value;
+        let confirmPassword = e.target.confirmpassword.value;
+        fetch('', {
+            method : 'POST',
+            headers : {
+                'Content-Type': 'application/json',
+                'Accept' : '*/*',
+                'Authorization' : 'Bearer' +  localStorage.getItem('token')
+            },
+            body : JSON.stringify({
+                'username' : userName,
+                'email' : email,
+                'password' : password,
+                'confirmpassword' : confirmPassword
+            })
+        }).then(r => r.json())
+        .then(data => {
+            this.setState({
+                redirect: '/info'
+            })
+        })
+    }
 
     render() {
+        if (this.state.redirect){
+            return <Redirect to={this.state.redirect} />
+        }
         return (
             <div>
                 <form>
